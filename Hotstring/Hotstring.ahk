@@ -105,7 +105,7 @@ Hotstring(string,label,Mode := 0,BS:=1, Func := ""){
 		if StrLen(typed) > 1500
 			StringTrimLeft,typed,typed,750
 	} else {
-		if hotstrings.HasKey(string){
+		if (hotstrings.HasKey(string) && label == ""){
 			hotstrings.Remove(string)
 			return
 		}

@@ -13,6 +13,7 @@ return
 
 btw:
 MsgBox You typed %$%. ;$ variable will contain exactly what the user typed in labels. Always keep in mind that $ is a global variable.
+Hotstring("btw","") ; Disable hotstrings.
 return
 Return
 
