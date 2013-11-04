@@ -2,7 +2,7 @@ Dynamic Hotstrings Library
 ===
 This library can be used to create dynamic hotstrings, either **with** or **without** regular expression.
 
-The sytax of the function is as follows:
+###Syntax:
 
 ```
 Hotstring(String/Regex,Label/Replacement/Function,Mode,Backscpace, Condition)
@@ -34,4 +34,28 @@ Params:
 		- Condition: Used to set context sensitive hotstrings.
 				Everytime the hotstring is triggered, the Condition function is called.
 				If the function returns true only, the hotstring is executed.
+```
+
+###Example:
+```autohotkey
+#Include Hotstring.ahk
+
+Hotstring("maths","mathemetics") ;Simple replacement.
+Hotstring("ahk","autohotkey",1) ;Normal case sensitive replacement.
+Hotstring("#now","%A_Now%") ;Will send %A_Now% as soon as #now is typed.
+Hotstring("(a|A)faik","$1s far as I know.",3) ; Will check the case of the first character and use it in the replacement.
+Hotstring("btw","btw") ; Goto the "btw" label instead of replacing it.
+Hotstring("(\d+)\/(\d+)%", "percent",3) ; One of poly's examples
+return
+
+
+btw:
+MsgBox You typed %$%. ;$ variable will contain exactly what the user typed in labels. Always keep in mind that $ is a global variable.
+return
+Return
+
+percent:
+p := Round($1 / $2 * 100)
+Send, %p%`%
+Return
 ```
