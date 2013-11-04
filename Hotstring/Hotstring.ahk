@@ -12,7 +12,7 @@ Params:
 				Subpatterns can be captured in regex mode.
 				In regex mode, be sure to escape the necessary characters.
 				
-		- Label/Function/Replacement: What to do when the hotstring is triggered.
+		- Label/Function/Replacement: A function or a label to execute or a text replacement.
 				If a label is not found, the script searches for a function with that name.
 				If a function has also not been found, a replacement is done.
 				The captured subpatters can be accessed with $n.$1 is the first subpattern, $2 is the second one and so on.
