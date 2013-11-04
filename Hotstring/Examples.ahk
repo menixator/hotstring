@@ -1,5 +1,6 @@
 ﻿#Include Hotstring.ahk
-Hotstring("meth","Methamphetamine") ;Simple replacement.
+
+Hotstring("maths","mathametics") ;Simple replacement.
 Hotstring("ahk","autohotkey",1) ;Normal case sensitive replacement.
 Hotstring("#now","%A_Now%") ;Will send %A_Now% as soon as #now is typed.
 Hotstring("(a|A)faik","$1s far as I know.",3) ; Will check the case of the first character and use it in the replacement.
