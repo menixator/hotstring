@@ -109,6 +109,8 @@ Hotstring(string,label,Mode := 0,BS:=1, Func := ""){
 			hotstrings.Remove(string)
 			return
 		}
+		if (Label == "")
+			return
 		hotstrings[string] := {}
 		hotstrings[string].label := label
 		hotstrings[string].func := Func
