@@ -23,10 +23,10 @@ Params:
 				If a function has also not been found, a replacement is done.
 				The captured subpatters can be accessed with $n.$1 is the first subpattern, $2 is the second one and so on.
 		
-		- Mode: Can be either 0,1 or 2.
-				Mode 0[Default]: Normal + Case insenstive.
-				Mode 1: Normal + Case sensitive.
-				Mode 2: Regex. (You can use the case insensitive "i)" with regex.)
+		- Mode: Can be either 1,2 or 3.
+				Mode 1[Default]: Normal + Case insenstive.
+				Mode 2: Normal + Case sensitive.
+				Mode 3: Regex. (You can use the case insensitive "i)" with regex.)
 		
 		- Backspace: A boolean value that decides whether to delete the trigger.
 				Can be either 0 or 1[Default] (or true[Default] or false)

@@ -17,10 +17,10 @@ Params:
 				If a function has also not been found, a replacement is done.
 				The captured subpatters can be accessed with $n.$1 is the first subpattern, $2 is the second one and so on.
 		
-		- Mode: Can be either 0,1 or 2.
-				Mode 0[Default]: Normal + Case insenstive.
-				Mode 1: Normal + Case sensitive.
-				Mode 2: Regex. (You can use the case insensitive "i)" with regex.)
+		- Mode: Can be either 1,2 or 3.
+				Mode 1[Default]: Normal + Case insenstive.
+				Mode 2: Normal + Case sensitive.
+				Mode 3: Regex. (You can use the case insensitive "i)" with regex.)
 		
 		- Backspace: A boolean value that decides whether to delete the trigger.
 				Can be either 0 or 1[Default] (or true[Default] or false)
@@ -29,7 +29,7 @@ Params:
 				Everytime the hotstring is triggered, the Condition function is called.
 				If the function returns true only, the hotstring is executed.
 */
-Hotstring(string,label,Mode := 0,BS:=1, Func := ""){
+Hotstring(string,label,Mode := 1,BS:=1, Func := ""){
 	static typed := "",Keysbinded,hotstrings := {}
 	global $
 	Symbols := "!""#$%&'()*+,-./0123456789:;<=>?@[\]^_``{|}~" Alpha := "abcdefghijklmnopqrstuvwxyz",KeysThatMatter := "BS,Return,Tab,Space",breakChars := "Left,Right,Up,Down,Home,End,RButton,LButton,LControl,RControl,LAlt,RAlt,AppsKey,Lwin,Rwin,f1,f2,f3,f4,f5,f6,f7,f8,f9,f6,f7,f9,f10,f11,f12",NumpadButtons := "Numpad0,Numpad1,Numpad2,Numpad3,Numpad4,Numpad5,Numpad6,Numpad7,Numpad8,Numpad9,NumpadDot,NumpadDiv,NumpadMult,NumpadAdd,NumpadSub,NumpadEnter"
@@ -86,7 +86,7 @@ Hotstring(string,label,Mode := 0,BS:=1, Func := ""){
 				if !f_Cond.()
 					continue
 			}
-			if Mode in 0,1
+			if Mode in 1,2
 			{
 				if ( InstPos := Instr(typed,hotstring,Mode,0)){
 					$ := hotstring
