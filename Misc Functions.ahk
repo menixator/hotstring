@@ -46,7 +46,7 @@ Median(Args*){
 	if (Args.MaxIndex() == 1)
 		return Args[1]
 	Args := sortArray(Args)
-	return !Mod(Args.MaxIndex(),2) ? (Args[firstNum := Floor(Args.MaxIndex()/2)]+Args[firstNum+1])/2 : Args[Floor(Args.MaxIndex()/2)]
+	return !Mod(Args.MaxIndex(),2) ? (Args[firstNum := Floor(Args.MaxIndex()/2)]+Args[firstNum+1])/2 : Args[1+Floor(Args.MaxIndex()/2)]
 }
 
 Join(delim := "`n",params*){
