@@ -1,11 +1,27 @@
-Mode(Delim := ", ", Args*){
-	local matched := [], maxCountNumbers := [], maxCount := 0, allArgs := Join(", ",Args*)
-	for index, num in Args
+/*
+Mode(Delimiter := ", ", Numbers*)
+Returns the Mode of the Numbers passed to it.
+Parameters:
+	- delimiter: (Optional) The delimiter to separate the values, if there are more than 1.
+	- numbers*: The numbers of which the mode wil be found.
+Requires:
+	- Join
+	- inList
+Examples:
+	Mode(,1,2,3,3,3,4,5,6,7,8,9,10) ; returns '3'.
+	Mode("|", -1,-2,-3,-3,-4,-4,-5,-10) ; returns'-3|-4
+	
+	NumberArray := [10,10,10,10,20,30,20] ;Initialize an array.
+	Mode(,NumberArray*) ; returns '10'. The asterisk tells to pass the array off as the parameters. 
+*/	
+Mode(delimiter := ", ", numbers*){
+	local matched := [], maxCountNumbers := [], maxCount := 0, allNumbers := Join(", ",numbers*)
+	for index, num in numbers
 	{
 		if (inList(num,matched*)){
 			continue
 		}
-		RegExReplace(allArgs,"(?<=^|, )" . num . "(,|$)","",count)
+		RegExReplace(allNumbers,"(?<=^|, )" . num . "(,|$)","",count)
 		if (count>=maxCount){
 			if (count > maxCount){
 				maxCount := count
@@ -18,13 +34,37 @@ Mode(Delim := ", ", Args*){
 		}
 		count := 0
 	}
-	return Join(Delim,maxCountNumbers*)
+	return Join(delimiter,maxCountNumbers*)
 }
 
-Average(Args*){
-  return Sum(Args*)/Args.MaxIndex()
+/*
+Average(numbers*)
+Returns the Average of the numbers passed to it.
+Parameters:
+	- numbers*: The numbers of which the average wil be found.
+Requires:
+	- Sum
+Examples:
+	Average(4,6,12,19,20) ; returns '12.200000'.
+	
+	NumberArray := [10,10,10,10,20,30,20]
+	Average(NumberArray*) ; returns '10'.
+*/
+Average(numbers*){
+  return Sum(numbers*)/numbers.MaxIndex()
 }
 
+/*
+Sum(Numbers*)
+Returns the Sum of the numbers passed to it.
+Parameters:
+	- Numbers*: The numbers of which the Sum wil be found.
+Examples:
+	Average(4,6,12,19,20) ; returns '12.200000'.
+	
+	NumberArray := [10,10,10,10,20,30,20]
+	Average(NumberArray*) ; returns '10'.
+*/
 Sum(Args*){
   total := 0
   for index, num in Args
@@ -32,32 +72,83 @@ Sum(Args*){
   return total
 }
 
-inList(item,List*){
-	for index, element in List
+/*
+foundPos := inList(searchItem, itemList*)
+Returns if an item is in a list. The index is returned if found, false if not found.
+Parameters:
+	- searchItem: The Item to find in the list
+	- itemList:   The List to search in.
+Examples:
+	itemArray := ["Apples", "Oranges", "Grapes"]
+	if (foundPos := inList("Grapes", itemArray*)){
+		Msgbox Grapes was found in the array! The index is %foundPos% 
+	}
+	
+	if (foundPos := inList("Jon", "Katy", "Sarah", "Jeff")){
+		Msgbox This won't appear as foundPos == 0
+	}
+*/
+inList(searchItem, itemList*){
+	for key,value in itemList
 	{
-		if (item == element){
-			return index
+		if (value == searchItem){
+			return key
 		}
 	}
 	return false
 }
 
-Median(Args*){
-	if (Args.MaxIndex() == 1)
-		return Args[1]
-	Args := sortArray(Args)
-	return !Mod(Args.MaxIndex(),2) ? (Args[firstNum := Floor(Args.MaxIndex()/2)]+Args[firstNum+1])/2 : Args[1+Floor(Args.MaxIndex()/2)]
+/*
+Median(numbers*)
+Returns the median of the numbers.
+Parameters:
+	- numbers: The numbers whose median is to be found.
+Requires:
+	- sortArray
+Examples:
+	Median(1) ; returns '1'
+	Median(1,2,3,4,5,6,7,8,9,0) returns '5.500000'
+*/
+Median(numbers*){
+	if (numbers.MaxIndex() == 1)
+		return numbers[1]
+	numbers := sortArray(numbers)
+	return !Mod(numbers.MaxIndex(),2) ? (numbers[firstNum := Floor(numbers.MaxIndex()/2)]+numbers[firstNum+1])/2 : numbers[1+Floor(numbers.MaxIndex()/2)]
 }
 
-Join(delim := "`n",params*){
+/*
+Join(delimiter := "`n",items*)
+Returns the items joined by the delimiter.
+Parameters:
+	- delimiter: The delimiter to separate the items.
+	- items:	 The items to join together.
+Examples:
+	Join(", ", "Carrot", "Cabbage", "Lettuce") returns 'Carrot, Cabbage, Lettuce'
+	
+	fruitArray := ["Apples", "Oranges", "Mango", "Grapes"]
+	Join("|", fruitArray*) ; Returns 'Apples|Oranges|Mango|Grapes'
+*/
+Join(delimiter := "`n",params*){
 	ret := ""
 	for index, param in params
-		ret .= (index == 1 ? "" : delim) . param
+		ret .= (index == 1 ? "" : delimiter) . param
 	return ret
 }
 
-
-sortArray(array,options := ""){
+/*
+sortedArray := sortList(list,options := "")
+Returns the items joined by the delimiter.
+Parameters:
+	- list:		The list of items to sort.
+	- Options:	The options for the 'sort' command.
+Requires:
+	- Join
+Examples:
+	sorted := sortList("Apples", "Oranges","Carrot") ; returns ["Apples", "Carrot", "Oranges"]
+	for k,v in sorted
+		Msgbox %v%
+*/
+sortList(list,options := ""){
 	array := Join("<-!-Delimeter-!->",array*)
 	sort,array,%options%
 	return StrSplit(array,"<-!-Delimeter-!->")
