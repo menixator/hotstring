@@ -60,10 +60,10 @@ Returns the Sum of the numbers passed to it.
 Parameters:
 	- Numbers*: The numbers of which the Sum wil be found.
 Examples:
-	Average(4,6,12,19,20) ; returns '12.200000'.
+	Sum(1,2,3,4,5) ; returns '15'
 	
-	NumberArray := [10,10,10,10,20,30,20]
-	Average(NumberArray*) ; returns '10'.
+	numberArray := [10,20,30]
+	Sum(numberArray); returns '60'
 */
 Sum(Args*){
   total := 0
