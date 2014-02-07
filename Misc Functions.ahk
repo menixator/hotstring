@@ -136,10 +136,10 @@ Join(delimiter := "`n",params*){
 }
 
 /*
-sortedArray := sortList(list,options := "")
-Returns the items joined by the delimiter.
+sortedArray := sortList(array,options := "")
+Sorts an array.
 Parameters:
-	- list:		The list of items to sort.
+	- Array:	The Array to sort.
 	- Options:	The options for the 'sort' command.
 Requires:
 	- Join
@@ -148,7 +148,7 @@ Examples:
 	for k,v in sorted
 		Msgbox %v%
 */
-sortList(list,options := ""){
+sortArray(array,options := ""){
 	array := Join("<-!-Delimeter-!->",array*)
 	sort,array,%options%
 	return StrSplit(array,"<-!-Delimeter-!->")
