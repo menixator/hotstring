@@ -136,7 +136,7 @@ Join(delimiter := "`n",params*){
 }
 
 /*
-sortedArray := sortList(array,options := "")
+sortedArray := sortArray(array,options := "")
 Sorts an array.
 Parameters:
 	- Array:	The Array to sort.
