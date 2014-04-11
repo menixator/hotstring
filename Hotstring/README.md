@@ -1,75 +1,103 @@
-Dynamic Hotstrings Library
+Hostring
 ===
-This library can be used to create dynamic hotstrings, either **with** or **without** regular expression.
+This is a library that adds a dynamic hotstring feature for Autohotkey.
 
-###Syntax:
+**Arguments:**
 
-```
-Hotstring(String/Regex,Label/Replacement/Function,Mode,Backscpace, Condition)
-Function: Dynamic Hotstrings.
-		- Dynamically add hotstrings.
-		- Can be regular expressions.
-		- Can run a label, function or do a text replacement when the hotstring is triggered.
-		- Can be context sensitive.
+- `trigger` - A string/regex that triggers the hotstrings.
+- `label` - A string to replace the trigger/label to goto/ name of function to call when the hotstring is triggered.
+			If it's a label, the variable `$` will contain either the phrase that triggered the hotstring or a [MatchObject](http://ahkscript.org/docs/commands/RegExMatch.htm#MatchObject) (If `mode == 3`)
+			If it's a function and the function takes atleast 1 parameter, the first parameter will be the trigger string, or the Match Object.
 
-Params:
-		- String/Regex: Can be either a normal string or a regular expression.
-				For regex to work, Mode should be set to 3.
-				Subpatterns can be captured in regex mode.
-				In regex mode, be sure to escape the necessary characters.
-				
-		- Label/Function/Replacement: A function or a label to execute or a text replacement.
-				If a label is not found, the script searches for a function with that name.
-				If a function has also not been found, a replacement is done.
-				The captured subpatters can be accessed with $n.$1 is the first subpattern, $2 is the second one and so on.
-		
-		- Mode: Can be either 1,2 or 3.
-				Mode 1[Default]: Normal + Case insenstive.
-				Mode 2: Normal + Case sensitive.
-				Mode 3: Regex. (You can use the case insensitive "i)" with regex.)
-		
-		- Backspace: A boolean value that decides whether to delete the trigger.
-				Can be either 0 or 1[Default] (or true[Default] or false)
-				
-		- Condition: Used to set context sensitive hotstrings.
-				Everytime the hotstring is triggered, the Condition function is called.
-				If the function returns true only, the hotstring is executed.
-```
+- `mode` - A number between 1 & 3. 1 creates a case insenstive hotstring, 2 creates a case sensitive hotstring, 3 creates a regex hotstring. **Defaults to `1`**.
+- `clearTrigger` - Wheather or not to clear the trigger. Defaults to `true`.
+- `cond` - A name of a function that is to be called everytime the hotstring is triggered. If this function returns a false value or if it returns nothing, the hotstring **is not triggered**.
 
-###Example:
+##Examples:
 ```autohotkey
 #Include Hotstring.ahk
 
-Hotstring("maths","mathemetics") ;Simple replacement.
-Hotstring("ahk","autohotkey",1) ;Normal case sensitive replacement.
-Hotstring("#now","%A_Now%") ;Will send %A_Now% as soon as #now is typed.
-Hotstring("(a|A)faik","$1s far as I know.",3) ; Will check the case of the first character and use it in the replacement.
-Hotstring("btw","btw") ; Goto the "btw" label instead of replacing it.
-Hotstring("i)\b(red|orange|blue|green)\b","colors",3) ; will run the colors function.
-Hotstring("(\d+)\/(\d+)%", "percent",3) ; One of poly's examples
-Hotstring("np","this will work only in notepad.",,,"condition") ; Context sensitive hotkey . . Sortof.
+Hotstring("btw", "by the way") ; Case insensitive.
+; btw -> by the way
+; BTW -> by the way
+; BtW -> by the way
+; bTw -> by the way.
+; annd so on.
+
+Hotstring("ahk", "autohotkey", 2) ; Case sensitive. 
+; only ahk will trigger it. AHK, aHk, or AhK won't trigger it
+```
+
+```autohotkey
+#Include Hotstring.ahk
+
+Hotstring("toLabel", "label")
 return
 
-
-btw:
-MsgBox You typed %$%. ;$ variable will contain exactly what the user typed in labels. Always keep in mind that $ is a global variable.
-Hotstring("btw","") ; Disable hotstrings.
+label:
+; $ == "toLabel"
 return
-Return
+
+```
+
+```autohotkey
+#Include Hotstring.ahk
+Hotstring("(\d+)\/(\d+)%", "percent",3)
+return
 
 percent:
-p := Round($1 / $2 * 100)
-Send, %p%`%
-Return
+; now $ is a match object.
+sendInput, % Round(($.Value(1)/$.Value(2))*100)
+; 2/2% -> 100
+; 70/100 -> 70%
+return
+```
 
-colors(choice){
-	; The hotstrings will pass off what the user typed to the function, only if it has 1 or more parameter(s)
-	MsgBox You chose %choice%
-	return
-}
+```autohotkey
+#Include Hotstring.ahk
 
-condition(){
-	;decides when to trigger the np hotstring.
-	return, WinActive("ahk_class Notepad")
+Hotstring("i)((d|w)on)(t)", "$1'$3",3) 
+;DONT -> DON'T
+;dont -> don't
+;dOnt -> dOn't
+;WONT -> WON'T
+;and so on.
+
+Hotstring("i)colou?rs","$0 $0 everywhere!", 3) ; Regex, Case insensitive
+; colors -> 'colors colors everywhere!'
+; colours -> 'colours colours everywhere!'
+
+```
+
+```autohotkey
+#Include Hotstring.ahk
+
+Hotstring("trigger", "replace") ;Case Insensitive
+return
+
+replace($){
+	; $ == 'trigger'
+	Msgbox %$% was entered!
 }
+```
+
+```autohotkey
+#Include Hotstring.ahk
+
+Hotstring("i)regex_(trigger)", "replace",3) ;Regex
+return
+
+replace($){
+	;$ is a match Object
+	Msgbox % $.Value(0) . " was entered."
+	Msgbox % $.Value(1) . " == 'trigger'"
+}
+```
+
+```autohotkey
+#Include Hotstring.ahk
+
+Hotstring("trigger", "replace")
+Sleep,4000
+Hotstring("trigger","") ; Removes the hotstring
 ```
