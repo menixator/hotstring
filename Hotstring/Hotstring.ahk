@@ -134,8 +134,8 @@ Hotstring(trigger, label, mode := 1, clearTrigger := 1, cond := ""){
 					toSend := v.label
 				
 					;Working out the backreferences
-					while R := RegExMatch(v.label,"\$(\d)", output, !R ? 1 : R+Strlen(output))
-						toSend := RegExReplace(toSend, "\Q" . output . "\E",local$.Value(output1),,1,R)
+					Loop, % local$.Count()
+						StringReplace, toSend,toSend,% "$" . A_Index,% local$.Value(A_index),All
 					toSend := RegExReplace(toSend,"([!#\+\^\{\}])","{$1}") ;Escape modifiers
 					SendInput,%toSend%
 				}
