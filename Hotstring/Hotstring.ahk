@@ -113,6 +113,7 @@ Hotstring(trigger, label, mode := 1, clearTrigger := 1, cond := ""){
 					}
 					if (!A_LoopRetVal){
 						; If the function returns a non-true value.
+						matched := false
 						continue
 					}
 				}
