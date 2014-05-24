@@ -1,4 +1,4 @@
-Hostring
+Hotstring
 ===
 This is a library that adds a dynamic hotstring feature for Autohotkey.
 
