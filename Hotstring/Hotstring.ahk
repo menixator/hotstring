@@ -83,7 +83,7 @@ Hotstring(trigger, label, mode := 1, clearTrigger := 1, cond := ""){
 			if (numkey1 ~= "\d"){
 				typed .= numkey1
 			} else {
-				typed .= effects[numKey1]
+				typed .= effect[numKey1]
 			}
 		} else {
 			typed .= Hotkey
