@@ -158,7 +158,7 @@ sortArray(array,options := ""){
 hexToDecimal(str)
 Converts hexadecimal strings to decimal numbers.
 Parameters:
-    - str: The hex value to convert to decimal. Optionally can have the 0x prefix. Any characters that do not fit the range 0-9, a-z are removed beforehand.
+    - str: The hex value to convert to decimal. Optionally can have the 0x prefix. 
 
 Examples:
     MsgBox % hexToDecimal("0xfffff") ; 1048575
@@ -166,16 +166,11 @@ Examples:
     MsgBox % hexToDecimal("DEADBEEF") ; 3735928559
 */  
 
-hexToDecimal(str){
-    local newStr := ""
-    static comp := {0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, "a":10, "b":11, "c":12, "d":13, "e":14, "f":15}
-    StringLower, str, str
-    str := RegExReplace(str, "^0x|[^a-f0-9]+", "")
-    Loop, % StrLen(str)
-        newStr .= SubStr(str, (StrLen(str)-A_Index)+1, 1)
-    newStr := StrSplit(newStr, "")
-    local ret := 0
-    for i,char in newStr
-        ret += comp[char]*(16**(i-1))
-    return ret
+hexToDecimal(str){   
+	if not (substr(str, 1, 2)="0x")
+		str := "0x" . str
+	SetFormat, IntegerFast, d			; see help and examples for SetFormat for following statements
+	str += 0
+	str .= ""
+	return str
 }
