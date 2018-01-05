@@ -119,7 +119,7 @@ Hotstring(trigger, label, mode := 1, clearTrigger := 1, cond := ""){
 				}
 				if (v.clearTrigger){
 					;Delete the trigger
-					SendInput % "{BS " . StrLen(local$.Value(0))  . "}"
+					SendInput % "{BS " . (v.mode==2 ? StrLen(local$) : StrLen(local$.Value(0)))  . "}"
 				}
 				if (IsLabel(v.label)){
 					$ := v.mode == 3 ? local$ : local$.Value(0)
