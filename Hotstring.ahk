@@ -135,8 +135,8 @@ Hotstring(trigger, label, mode := 1, clearTrigger := 1, cond := ""){
 					toSend := v.label
 				
 					;Working out the backreferences
-					Loop, % local$.Count()
-						StringReplace, toSend,toSend,% "$" . A_Index,% local$.Value(A_index),All
+					Loop, % local$.Count()+1
+						StringReplace, toSend,toSend,% "$" . A_Index-1,% local$.Value(A_index-1),All
 					toSend := RegExReplace(toSend,"([!#\+\^\{\}])","{$1}") ;Escape modifiers
 					SendInput,%toSend%
 				}
